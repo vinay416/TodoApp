@@ -14,7 +14,7 @@ class HomeView extends StatelessWidget {
             const Text("Homeview"),
             TextButton(
               onPressed: () {
-                AuthModel.instance.logout();
+                AuthModel().logout();
               },
               child: const Text("log-out"),
             )

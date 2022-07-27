@@ -1,17 +1,55 @@
+import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthModel {
   AuthModel._privateConstructor();
 
   static final AuthModel _instance = AuthModel._privateConstructor();
 
-  static AuthModel get instance => _instance;
+  factory AuthModel() => _instance;
 
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
+
   Stream<User?> get getAuthStream => _firebaseAuth.authStateChanges();
 
-  void signInAnon() => _firebaseAuth.signInAnonymously();
+  Future<bool> logout() async {
+    try {
+      await _firebaseAuth.signOut();
+      if (await _googleSignIn.isSignedIn()) {
+        await _googleSignIn.signOut();
+      }
+      return true;
+    } catch (e) {
+      log(e.toString());
+      return false;
+    }
+  }
 
-  void logout() => _firebaseAuth.signOut();
+  Future<bool> signInWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+
+      if (googleUser != null) {
+        final GoogleSignInAuthentication googleAuth =
+            await googleUser.authentication;
+
+        final credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+
+        await _firebaseAuth.signInWithCredential(credential);
+
+        return true;
+      }
+
+      throw ("Something went wrong");
+    } on Exception catch (e) {
+      log(e.toString());
+      return false;
+    }
+  }
 }

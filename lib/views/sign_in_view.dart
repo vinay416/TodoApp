@@ -14,7 +14,7 @@ class SignInView extends StatelessWidget {
             const Text("Signin"),
             TextButton(
                 onPressed: () {
-                  AuthModel.instance.signInAnon();
+                  AuthModel().signInWithGoogle();
                 },
                 child: const Text("Sign-in"))
           ],
