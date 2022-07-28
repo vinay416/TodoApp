@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-void setStatusBarIconColor({required Brightness iconColor}) {
+void setStatusBarIconColor({
+  required Brightness iconColor,
+  Color statusBarColor = Colors.transparent,
+}) {
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
+      statusBarColor: statusBarColor,
       statusBarIconBrightness: iconColor,
     ),
   );

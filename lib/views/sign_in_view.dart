@@ -4,7 +4,7 @@ import 'package:todo_app/const/color_const.dart';
 import 'package:todo_app/const/svg_const.dart';
 import 'package:todo_app/const/text_style_const.dart';
 import 'package:todo_app/model/auth_model.dart';
-import 'package:todo_app/resuable_widgets/buttons_widget.dart';
+import 'package:todo_app/resuable_widgets/elevated_buttons_widget.dart';
 import 'package:todo_app/resuable_widgets/extension_widget.dart';
 import 'package:todo_app/resuable_widgets/snackbar_widget.dart';
 import 'package:todo_app/status_bar.dart';
@@ -97,7 +97,7 @@ class _SignInViewState extends State<SignInView> {
   Widget _buildTitleText() {
     return Text(
       "Welcome to MyTodo",
-      style: kTitleTextItlaticStyle,
+      style: kProductTitleTextItlaticStyle,
     );
   }
 

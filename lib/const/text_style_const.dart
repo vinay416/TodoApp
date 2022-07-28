@@ -8,17 +8,37 @@ TextStyle kBodyTextStyle = GoogleFonts.alegreyaSans(
   fontSize: 20,
 );
 
-TextStyle kTitleTextItlaticStyle = GoogleFonts.pacifico(
+TextStyle kProductTitleTextItlaticStyle = GoogleFonts.pacifico(
   fontStyle: FontStyle.italic,
   color: kProductColor,
   fontSize: 35,
   fontWeight: FontWeight.bold,
 );
 
-TextStyle kAccentTextStyle = GoogleFonts.davidLibre(
+TextStyle kPrimaryTitleTextItlaticStyle = GoogleFonts.pacifico(
+  fontStyle: FontStyle.italic,
+  color: kPrimaryColor,
+  fontSize: 35,
+  fontWeight: FontWeight.bold,
+);
+
+TextStyle kTodoProductTitleTextStyle = GoogleFonts.davidLibre(
+  fontStyle: FontStyle.normal,
+  color: kProductColor,
+  fontSize: 25,
+);
+
+TextStyle kPrimaryAccentTextStyle = GoogleFonts.davidLibre(
   fontStyle: FontStyle.normal,
   color: kPrimaryColor,
   fontSize: 25,
+);
+
+TextStyle kBlackAccentTextStyle = GoogleFonts.davidLibre(
+  fontStyle: FontStyle.normal,
+  color: kAccentColor,
+  fontSize: 20,
+  fontWeight: FontWeight.bold,
 );
 
 TextStyle kResponseTextStyle = GoogleFonts.quicksand(

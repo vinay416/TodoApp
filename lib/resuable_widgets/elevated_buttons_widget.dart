@@ -43,7 +43,7 @@ class CustomElevatedButton extends StatelessWidget {
             ),
           Text(
             label,
-            style: kAccentTextStyle,
+            style: kPrimaryAccentTextStyle,
           ),
         ],
       ),
