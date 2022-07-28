@@ -45,8 +45,7 @@ class AuthModel {
 
         return true;
       }
-
-      throw ("Something went wrong");
+      return false;
     } on Exception catch (e) {
       log(e.toString());
       return false;

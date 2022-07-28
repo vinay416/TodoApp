@@ -11,7 +11,7 @@ TextStyle kBodyTextStyle = GoogleFonts.alegreyaSans(
 TextStyle kTitleTextItlaticStyle = GoogleFonts.pacifico(
   fontStyle: FontStyle.italic,
   color: kProductColor,
-  fontSize: 30,
+  fontSize: 35,
   fontWeight: FontWeight.bold,
 );
 
@@ -19,4 +19,10 @@ TextStyle kAccentTextStyle = GoogleFonts.davidLibre(
   fontStyle: FontStyle.normal,
   color: kPrimaryColor,
   fontSize: 25,
+);
+
+TextStyle kResponseTextStyle = GoogleFonts.quicksand(
+  fontStyle: FontStyle.normal,
+  color: kPrimaryColor,
+  fontSize: 20,
 );

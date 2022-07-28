@@ -7,7 +7,7 @@ class LoaderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LoadingAnimationWidget.dotsTriangle(
+    return LoadingAnimationWidget.staggeredDotsWave(
       color: kAccentColor,
       size: 50,
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/const/color_const.dart';
 import 'package:todo_app/const/text_style_const.dart';
+import 'package:todo_app/resuable_widgets/loader_widget.dart';
 
 class CustomElevatedButton extends StatelessWidget {
   const CustomElevatedButton({
@@ -8,14 +9,20 @@ class CustomElevatedButton extends StatelessWidget {
     required this.onTap,
     required this.label,
     this.icon,
+    this.isLoader = false,
   }) : super(key: key);
 
   final VoidCallback onTap;
   final String label;
   final IconData? icon;
+  final bool isLoader;
 
   @override
   Widget build(BuildContext context) {
+    return isLoader ? const LoaderWidget() : _buildButton();
+  }
+
+  Widget _buildButton() {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         primary: kAccentColor,
