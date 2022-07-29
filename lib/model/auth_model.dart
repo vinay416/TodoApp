@@ -1,6 +1,8 @@
 import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:todo_app/model/user_data_model.dart';
+import 'package:todo_app/repository/database_repo.dart';
 
 class AuthModel {
   AuthModel._privateConstructor();
@@ -43,6 +45,8 @@ class AuthModel {
 
         await _firebaseAuth.signInWithCredential(credential);
 
+        await DataBaseRepo().createNewUser();
+
         return true;
       }
       return false;
@@ -50,5 +54,15 @@ class AuthModel {
       log(e.toString());
       return false;
     }
+  }
+
+  UserDataModel get getUser {
+    final String id = _firebaseAuth.currentUser!.uid;
+    final String email = _firebaseAuth.currentUser!.email!;
+
+    return UserDataModel(
+      email: email,
+      id: id,
+    );
   }
 }
