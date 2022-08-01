@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_app/model/auth_model.dart';
@@ -20,45 +22,98 @@ class DataBaseRepo {
   final UserDataModel _userModel = AuthModel().getUser;
 
   Future<void> createNewUser() async {
-    final userId = _userModel.id;
+    try {
+      final userId = _userModel.id;
 
-    final CollectionReference userDB = _firestoreDB.collection(_usersDB);
+      final CollectionReference userDB = _firestoreDB.collection(_usersDB);
 
-    final userRecord =
-        await userDB.doc(userId).get();
+      final userRecord = await userDB.doc(userId).get();
 
-    if (userRecord.exists) {
-      return;
+      if (userRecord.exists) {
+        return;
+      }
+
+      final Map<String, dynamic> payload = _userModel.toJson();
+
+      await userDB.doc(userId).set(payload);
+
+      await createTodo();
+    } on Exception catch (e) {
+      log("User Create error : $e");
     }
-
-    final Map<String, dynamic> payload = _userModel.toJson();
-
-    await userDB.doc(userId).set(payload);
-
-    await _createSampleTodo(userId);
   }
 
-  Future<void> _createSampleTodo(String userId) async {
-    final String date = _getFormattedDate();
+  Future<void> createTodo({TodoDataModel? userTodo}) async {
+    try {
+      final String date = _getFormattedDate;
+
+      final CollectionReference todoDb = _getUserTodoDB;
+
+      final String todoId = todoDb.doc().id;
+
+      Map<String, dynamic> payload;
+
+      if (userTodo == null) {
+        TodoDataModel sampleTodo = TodoDataModel(
+          id: todoId,
+          title: "Sample Data",
+          date: "Hi, there!",
+          desc: date,
+        );
+
+        payload = sampleTodo.toJson();
+      } else {
+        payload = userTodo.toJson();
+      }
+
+      await todoDb.doc(todoId).set(payload);
+    } on Exception catch (e) {
+      log("Todo Create error : $e");
+    }
+  }
+
+  Future<void> modifyTodo(TodoDataModel todoModel) async {
+    final CollectionReference todoDb = _getUserTodoDB;
+
+    final String todoId = todoModel.id;
+
+    final Map<String, dynamic> payload = todoModel.toJson();
+
+    await todoDb.doc(todoId).update(payload);
+  }
+
+  Future<void> deleteTodo(String todoId) async {
+    final CollectionReference todoDB = _getUserTodoDB;
+
+    await todoDB.doc(todoId).delete();
+  }
+
+  Stream<List<TodoDataModel>> get getUserTodoStream {
+    final CollectionReference todoDB = _getUserTodoDB;
+
+    return todoDB.snapshots().map((event) => _getListTodoModel(event));
+  }
+
+  List<TodoDataModel> _getListTodoModel(QuerySnapshot<Object?> event) {
+    final todoList = event.docs;
+    return todoList.map((e) => _getTodoModel(e)).toList();
+  }
+
+  TodoDataModel _getTodoModel(QueryDocumentSnapshot<Object?> todo) {
+    final todoJson = todo.data() as Map<String, dynamic>;
+    return TodoDataModel.fromJson(todoJson);
+  }
+
+  CollectionReference get _getUserTodoDB {
+    final String userId = _userModel.id;
 
     final CollectionReference todoDb =
         _firestoreDB.collection(_usersDB).doc(userId).collection(_todoDB);
 
-    final String docId = todoDb.doc().id;
-
-    final TodoDataModel sampleTodo = TodoDataModel(
-      id: docId,
-      title: "Sample Data",
-      date: "Hi, there!",
-      desc: date,
-    );
-
-    final Map<String, dynamic> payload = sampleTodo.toJson();
-
-    await todoDb.doc(docId).set(payload);
+    return todoDb;
   }
 
-  String _getFormattedDate() {
+  String get _getFormattedDate {
     final String date = DateFormat.yMMMMd().format(DateTime.now());
     return date;
   }

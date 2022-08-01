@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/const/color_const.dart';
 import 'package:todo_app/const/text_style_const.dart';
+import 'package:todo_app/model/todo_data_model.dart';
+import 'package:todo_app/repository/database_repo.dart';
 import 'package:todo_app/resuable_widgets/extension_widget.dart';
 import 'package:todo_app/resuable_widgets/icon_button_widget.dart';
 
 class TodoModelWidget extends StatefulWidget {
-  const TodoModelWidget({Key? key}) : super(key: key);
+  const TodoModelWidget({Key? key, required this.todo}) : super(key: key);
+
+  final TodoDataModel todo;
 
   @override
   State<TodoModelWidget> createState() => _TodoModelWidgetState();
 }
 
 class _TodoModelWidgetState extends State<TodoModelWidget> {
-  
   @override
   Widget build(BuildContext context) {
     return _buildTodoCard();
@@ -54,15 +57,15 @@ class _TodoModelWidgetState extends State<TodoModelWidget> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Topic",
+          widget.todo.title,
           style: kTodoProductTitleTextStyle,
         ),
         Text(
-          "Desc",
+          widget.todo.desc,
           style: kBodyTextStyle,
         ),
         Text(
-          "Date",
+          widget.todo.date,
           style: kBodyTextStyle,
         ),
       ],
@@ -82,7 +85,10 @@ class _TodoModelWidgetState extends State<TodoModelWidget> {
           width: context.w(20),
         ),
         CustomIconTextButton(
-          onTap: () {},
+          onTap: () async {
+            final String todoId = widget.todo.id;
+            DataBaseRepo().deleteTodo(todoId);
+          },
           icon: Icons.delete_rounded,
           iconColor: kRedColor,
           iconSize: 30,
