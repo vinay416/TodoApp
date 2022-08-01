@@ -17,6 +17,7 @@ class _HomeViewState extends State<HomeView> {
     return Scaffold(
       backgroundColor: kPrimaryColor,
       body: SafeArea(child: _buildBody()),
+      floatingActionButton: _buildFloatingButton(),
     );
   }
 
@@ -39,6 +40,17 @@ class _HomeViewState extends State<HomeView> {
         AppTopBar(),
         TodoListWidget(),
       ],
+    );
+  }
+
+  Widget _buildFloatingButton() {
+    return FloatingActionButton(
+      onPressed: () {},
+      child: const Icon(
+        Icons.add_rounded,
+        size: 50,
+      ),
+      backgroundColor: kAccentColor,
     );
   }
 }

@@ -29,7 +29,7 @@ class _AppTopBarState extends State<AppTopBar> {
     return Container(
       margin: EdgeInsets.symmetric(
         horizontal: context.w(50),
-        vertical: context.h(40),
+        vertical: context.h(30),
       ),
       decoration: BoxDecoration(
         color: kProductColor,
