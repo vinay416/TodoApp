@@ -61,7 +61,7 @@ class AuthModel {
 
     return UserDataModel(
       email: user.email!,
-      id: user.email!,
+      id: user.uid,
       name: user.displayName!,
     );
   }

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:todo_app/const/color_const.dart';
 import 'package:todo_app/const/text_style_const.dart';
 import 'package:todo_app/model/auth_model.dart';
+import 'package:todo_app/model/todo_data_model.dart';
 import 'package:todo_app/model/user_data_model.dart';
+import 'package:todo_app/repository/database_repo.dart';
 import 'package:todo_app/resuable_widgets/extension_widget.dart';
 import 'package:todo_app/resuable_widgets/icon_button_widget.dart';
 import 'package:todo_app/resuable_widgets/loader_widget.dart';
@@ -74,9 +76,18 @@ class _AppTopBarState extends State<AppTopBar> {
           ? EdgeInsets.all(context.h(20))
           : EdgeInsets.symmetric(
               horizontal: context.w(50), vertical: context.h(30)),
-      child: Text(
-        "20",
-        style: kPrimaryTitleTextItlaticStyle,
+      child: StreamBuilder<List<TodoDataModel>>(
+        stream: DataBaseRepo().getUserTodoStream,
+        builder: (context, snapshot) {
+          int? todoLength = snapshot.data?.length;
+
+          todoLength ??= 0;
+
+          return Text(
+            todoLength.toString(),
+            style: kPrimaryTitleTextItlaticStyle,
+          );
+        },
       ),
     );
   }

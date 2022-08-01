@@ -2,7 +2,7 @@ class UserDataModel {
   const UserDataModel({
     required this.id,
     required this.email,
-    required this.name,
+    this.name,
   });
 
   final String id;
@@ -13,7 +13,6 @@ class UserDataModel {
     return UserDataModel(
       id: json["id"],
       email: json["email"],
-      name: json["name"],
     );
   }
 
@@ -21,7 +20,6 @@ class UserDataModel {
     return {
       "id": id,
       "email": email,
-      "name": name,
     };
   }
 }
