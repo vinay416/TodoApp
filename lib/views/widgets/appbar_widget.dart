@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:todo_app/const/color_const.dart';
 import 'package:todo_app/const/text_style_const.dart';
 import 'package:todo_app/model/auth_model.dart';
+import 'package:todo_app/model/user_data_model.dart';
 import 'package:todo_app/resuable_widgets/extension_widget.dart';
 import 'package:todo_app/resuable_widgets/icon_button_widget.dart';
 import 'package:todo_app/resuable_widgets/loader_widget.dart';
@@ -32,7 +33,7 @@ class _AppTopBarState extends State<AppTopBar> {
         color: kProductColor,
         borderRadius: BorderRadius.circular(20),
       ),
-      height: context.isPortrait ? context.h(180) : context.h(350),
+      height: context.isPortrait ? context.h(200) : context.h(400),
       width: double.infinity,
       child: _buildAppBar(),
     );
@@ -93,23 +94,37 @@ class _AppTopBarState extends State<AppTopBar> {
   }
 
   Widget _buildSignOutButton() {
-    return CustomIconTextButton(
-      isLoader: isLoading,
-      onTap: () async {
-        setState(() => isLoading = true);
-        final bool ressponse = await AuthModel().logout();
-        if (!ressponse) {
-          showSnackBar(
-            context,
-            "Something went wrong, please try again",
-            Respose.fail,
-          );
-        }
-        if (mounted) setState(() => isLoading = false);
-      },
-      icon: Icons.logout_rounded,
-      iconColor: kAccentColor,
-      label: "Sign-Out",
+    final UserDataModel user = AuthModel().getUser;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Container(
+          margin: EdgeInsets.only(right: context.w(20)),
+          child: Text(
+            user.name ?? user.email,
+            style: kResponseTextStyle,
+          ),
+        ),
+        CustomIconTextButton(
+          isLoader: isLoading,
+          onTap: () async {
+            setState(() => isLoading = true);
+            final bool ressponse = await AuthModel().logout();
+            if (!ressponse) {
+              showSnackBar(
+                context,
+                "Something went wrong, please try again",
+                Respose.fail,
+              );
+            }
+            if (mounted) setState(() => isLoading = false);
+          },
+          icon: Icons.logout_rounded,
+          iconColor: kAccentColor,
+          label: "Sign-Out",
+        ),
+      ],
     );
   }
 }

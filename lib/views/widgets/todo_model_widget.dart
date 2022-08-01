@@ -42,13 +42,7 @@ class _TodoModelWidgetState extends State<TodoModelWidget> {
         context.w(20),
         context.h(10),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          _buildData(),
-          _buildButtons(),
-        ],
-      ),
+      child: _buildData(),
     );
   }
 
@@ -64,9 +58,15 @@ class _TodoModelWidgetState extends State<TodoModelWidget> {
           widget.todo.desc,
           style: kBodyTextStyle,
         ),
-        Text(
-          widget.todo.date,
-          style: kBodyTextStyle,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              widget.todo.date,
+              style: kBodyTextStyle,
+            ),
+            _buildButtons(),
+          ],
         ),
       ],
     );
@@ -82,7 +82,7 @@ class _TodoModelWidgetState extends State<TodoModelWidget> {
           iconSize: 30,
         ),
         SizedBox(
-          width: context.w(20),
+          width: context.w(10),
         ),
         CustomIconTextButton(
           onTap: () async {

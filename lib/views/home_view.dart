@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/const/color_const.dart';
+import 'package:todo_app/resuable_widgets/extension_widget.dart';
 import 'package:todo_app/views/widgets/appbar_widget.dart';
 import 'package:todo_app/views/widgets/todo_list_widget.dart';
 
@@ -20,6 +21,19 @@ class _HomeViewState extends State<HomeView> {
   }
 
   Widget _buildBody() {
+    if (context.isPortrait) {
+      return _buildComponents();
+    }
+
+    return SingleChildScrollView(
+      child: SizedBox(
+        height: context.h(1000),
+        child: _buildComponents(),
+      ),
+    );
+  }
+
+  Widget _buildComponents() {
     return Column(
       children: const [
         AppTopBar(),

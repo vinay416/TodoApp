@@ -57,12 +57,12 @@ class AuthModel {
   }
 
   UserDataModel get getUser {
-    final String id = _firebaseAuth.currentUser!.uid;
-    final String email = _firebaseAuth.currentUser!.email!;
+    final User user = _firebaseAuth.currentUser!;
 
     return UserDataModel(
-      email: email,
-      id: id,
+      email: user.email!,
+      id: user.email!,
+      name: user.displayName!,
     );
   }
 }

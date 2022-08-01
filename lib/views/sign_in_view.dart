@@ -105,7 +105,7 @@ class _SignInViewState extends State<SignInView> {
     return Column(
       children: [
         Text(
-          "Create your Todo's now.",
+          "Create your Todos now.",
           style: kBodyTextStyle,
         ),
         Text(

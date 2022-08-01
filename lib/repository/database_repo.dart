@@ -57,8 +57,8 @@ class DataBaseRepo {
         TodoDataModel sampleTodo = TodoDataModel(
           id: todoId,
           title: "Sample Data",
-          date: "Hi, there!",
-          desc: date,
+          desc: "Hi, there!",
+          date: date,
         );
 
         payload = sampleTodo.toJson();
