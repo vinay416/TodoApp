@@ -18,11 +18,9 @@ class TodoApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      routes: {
-        AuthView.route: (context) => const AuthView(),
-      },
+      home: AuthView(),
     );
   }
 }

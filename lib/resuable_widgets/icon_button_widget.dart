@@ -13,6 +13,7 @@ class CustomIconTextButton extends StatelessWidget {
     this.iconColor = kProductColor,
     this.iconSize = 20,
     this.buttonAlignment = MainAxisAlignment.end,
+    this.axisSize = MainAxisSize.max,
   }) : super(key: key);
   final VoidCallback onTap;
   final String? label;
@@ -21,6 +22,7 @@ class CustomIconTextButton extends StatelessWidget {
   final double iconSize;
   final bool isLoader;
   final MainAxisAlignment buttonAlignment;
+  final MainAxisSize axisSize;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +39,7 @@ class CustomIconTextButton extends StatelessWidget {
   Widget _buildButton() {
     return Row(
       mainAxisAlignment: buttonAlignment,
+      mainAxisSize: axisSize,
       children: [
         if (label != null)
           Text(

@@ -5,6 +5,7 @@ import 'package:todo_app/model/todo_data_model.dart';
 import 'package:todo_app/repository/database_repo.dart';
 import 'package:todo_app/resuable_widgets/extension_widget.dart';
 import 'package:todo_app/resuable_widgets/icon_button_widget.dart';
+import 'package:todo_app/views/todo_view.dart';
 
 class TodoModelWidget extends StatefulWidget {
   const TodoModelWidget({Key? key, required this.todo}) : super(key: key);
@@ -76,7 +77,14 @@ class _TodoModelWidgetState extends State<TodoModelWidget> {
     return Row(
       children: [
         CustomIconTextButton(
-          onTap: () {},
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => TodoView(todoDataModel: widget.todo),
+              ),
+            );
+          },
           icon: Icons.edit,
           iconColor: kAccentColor,
           iconSize: 30,

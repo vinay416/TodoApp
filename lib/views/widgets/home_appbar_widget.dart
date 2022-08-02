@@ -10,14 +10,14 @@ import 'package:todo_app/resuable_widgets/icon_button_widget.dart';
 import 'package:todo_app/resuable_widgets/loader_widget.dart';
 import 'package:todo_app/resuable_widgets/snackbar_widget.dart';
 
-class AppTopBar extends StatefulWidget {
-  const AppTopBar({Key? key}) : super(key: key);
+class HomeAppTopBar extends StatefulWidget {
+  const HomeAppTopBar({Key? key}) : super(key: key);
 
   @override
-  State<AppTopBar> createState() => _AppTopBarState();
+  State<HomeAppTopBar> createState() => _HomeAppTopBarState();
 }
 
-class _AppTopBarState extends State<AppTopBar> {
+class _HomeAppTopBarState extends State<HomeAppTopBar> {
   bool isLoading = false;
 
   @override

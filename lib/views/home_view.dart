@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/const/color_const.dart';
 import 'package:todo_app/resuable_widgets/extension_widget.dart';
-import 'package:todo_app/views/widgets/appbar_widget.dart';
+import 'package:todo_app/views/todo_view.dart';
+import 'package:todo_app/views/widgets/home_appbar_widget.dart';
 import 'package:todo_app/views/widgets/todo_list_widget.dart';
 
 class HomeView extends StatefulWidget {
@@ -37,7 +38,7 @@ class _HomeViewState extends State<HomeView> {
   Widget _buildComponents() {
     return Column(
       children: const [
-        AppTopBar(),
+        HomeAppTopBar(),
         TodoListWidget(),
       ],
     );
@@ -45,7 +46,12 @@ class _HomeViewState extends State<HomeView> {
 
   Widget _buildFloatingButton() {
     return FloatingActionButton(
-      onPressed: () {},
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const TodoView()),
+        );
+      },
       child: const Icon(
         Icons.add_rounded,
         size: 50,
