@@ -133,7 +133,7 @@ class _HomeAppTopBarState extends State<HomeAppTopBar> {
           },
           icon: Icons.logout_rounded,
           iconColor: kAccentColor,
-          label: "Sign-Out",
+          label: "Sign out",
         ),
       ],
     );
