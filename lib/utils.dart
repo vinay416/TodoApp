@@ -17,6 +17,11 @@ void setStatusBarIconColor({
 }
 
 String getFormattedDate(DateTime date) {
-  final String todoDate = DateFormat.yMMMMd().format(date);
-  return todoDate;
+  final String day = DateFormat.d().format(date);
+  final String month = DateFormat.MMMM().format(date);
+  final String year = DateFormat.y().format(date);
+
+  final String formatted = "$day $month, $year";
+
+  return formatted;
 }
