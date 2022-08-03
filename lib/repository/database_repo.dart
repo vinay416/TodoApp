@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart';
 import 'package:todo_app/model/auth_model.dart';
 import 'package:todo_app/model/todo_data_model.dart';
 import 'package:todo_app/model/user_data_model.dart';
+import 'package:todo_app/utils.dart';
 
 const String _usersDB = "Users";
 
@@ -45,7 +45,7 @@ class DataBaseRepo {
 
   Future<void> createTodo({TodoDataModel? userTodo}) async {
     try {
-      final String date = _getFormattedDate;
+      final String date = getFormattedDate(DateTime.now());
 
       final CollectionReference todoDb = _getUserTodoDB;
 
@@ -63,6 +63,7 @@ class DataBaseRepo {
 
         payload = sampleTodo.toJson();
       } else {
+        userTodo.id = todoId;
         payload = userTodo.toJson();
       }
 
@@ -72,10 +73,13 @@ class DataBaseRepo {
     }
   }
 
-  Future<void> modifyTodo(TodoDataModel todoModel) async {
+  Future<void> modifyTodo({
+    required TodoDataModel todoModel,
+    required String todoId,
+  }) async {
     final CollectionReference todoDb = _getUserTodoDB;
 
-    final String todoId = todoModel.id;
+    todoModel.id = todoId;
 
     final Map<String, dynamic> payload = todoModel.toJson();
 
@@ -111,10 +115,5 @@ class DataBaseRepo {
         _firestoreDB.collection(_usersDB).doc(userId).collection(_todoDB);
 
     return todoDb;
-  }
-
-  String get _getFormattedDate {
-    final String date = DateFormat.yMMMMd().format(DateTime.now());
-    return date;
   }
 }

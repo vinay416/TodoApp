@@ -7,7 +7,7 @@ import 'package:todo_app/model/auth_model.dart';
 import 'package:todo_app/resuable_widgets/elevated_buttons_widget.dart';
 import 'package:todo_app/resuable_widgets/extension_widget.dart';
 import 'package:todo_app/resuable_widgets/snackbar_widget.dart';
-import 'package:todo_app/status_bar.dart';
+import 'package:todo_app/utils.dart';
 
 class SignInView extends StatefulWidget {
   const SignInView({Key? key}) : super(key: key);

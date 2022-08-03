@@ -81,7 +81,7 @@ class _TodoModelWidgetState extends State<TodoModelWidget> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => TodoView(todoDataModel: widget.todo),
+                builder: (context) => TodoView(todo: widget.todo),
               ),
             );
           },

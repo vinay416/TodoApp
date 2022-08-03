@@ -1,24 +1,61 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/const/color_const.dart';
+import 'package:todo_app/const/text_style_const.dart';
 import 'package:todo_app/model/todo_data_model.dart';
-import 'package:todo_app/views/widgets/todo_appbar_widget.dart';
+import 'package:todo_app/resuable_widgets/extension_widget.dart';
+import 'package:todo_app/resuable_widgets/icon_button_widget.dart';
+import 'package:todo_app/views/widgets/todo_form_widget.dart';
 
 class TodoView extends StatelessWidget {
-  const TodoView({Key? key, this.todoDataModel}) : super(key: key);
-  final TodoDataModel? todoDataModel;
+  const TodoView({Key? key, this.todo}) : super(key: key);
+  final TodoDataModel? todo;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kPrimaryColor,
-      body: SafeArea(child: _buildBody()),
+      body: SafeArea(
+        child: _buildBody(context),
+      ),
     );
   }
 
-  Widget _buildBody() {
+  Widget _buildBody(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildBackButton(context),
+          _buildForm(context),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildBackButton(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(left: context.w(20), top: context.h(10)),
+      child: CustomIconTextButton(
+        axisSize: MainAxisSize.min,
+        buttonAlignment: MainAxisAlignment.start,
+        icon: Icons.arrow_back_rounded,
+        iconColor: kAccentColor,
+        iconSize: 40,
+        onTap: () => Navigator.pop(context),
+      ),
+    );
+  }
+
+  Widget _buildForm(BuildContext context) {
     return Column(
-      children: const [
-        TodoAppBar(),
+      children: [
+        Center(
+          child: Text(
+            "Todo Details",
+            style: kProductTitleTextItlaticStyle,
+          ),
+        ),
+        TodoFormWidget(todo: todo),
       ],
     );
   }
