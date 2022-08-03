@@ -25,7 +25,8 @@ class DataBaseRepo {
     try {
       final userId = _userModel.id;
 
-      final CollectionReference users = _firestoreDB.collection(_usersCollection);
+      final CollectionReference users =
+          _firestoreDB.collection(_usersCollection);
 
       final userRecord = await users.doc(userId).get();
 
@@ -114,8 +115,10 @@ class DataBaseRepo {
   CollectionReference get _getUserTodoCollection {
     final String userId = _userModel.id;
 
-    final CollectionReference todoDb =
-        _firestoreDB.collection(_usersCollection).doc(userId).collection(_todoCollection);
+    final CollectionReference todoDb = _firestoreDB
+        .collection(_usersCollection)
+        .doc(userId)
+        .collection(_todoCollection);
 
     return todoDb;
   }

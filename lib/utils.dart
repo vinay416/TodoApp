@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
-const String kModifyAnimation = "modifyAnimation";
-
 void setStatusBarIconColor({
   required Brightness iconColor,
   Color statusBarColor = Colors.transparent,

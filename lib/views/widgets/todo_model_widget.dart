@@ -5,7 +5,6 @@ import 'package:todo_app/model/todo_data_model.dart';
 import 'package:todo_app/repository/database_repo.dart';
 import 'package:todo_app/reusable_widgets/extension_widget.dart';
 import 'package:todo_app/reusable_widgets/icon_button_widget.dart';
-import 'package:todo_app/utils.dart';
 import 'package:todo_app/views/todo_view.dart';
 
 class TodoModelWidget extends StatefulWidget {
@@ -25,7 +24,7 @@ class _TodoModelWidgetState extends State<TodoModelWidget> {
 
   Widget _buildTodoCard() {
     return Hero(
-      tag: kModifyAnimation,
+      tag: widget.todo.id,
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: context.w(50)),
         child: Card(

@@ -4,7 +4,6 @@ import 'package:todo_app/const/text_style_const.dart';
 import 'package:todo_app/model/todo_data_model.dart';
 import 'package:todo_app/reusable_widgets/extension_widget.dart';
 import 'package:todo_app/reusable_widgets/icon_button_widget.dart';
-import 'package:todo_app/utils.dart';
 import 'package:todo_app/views/widgets/todo_form_widget.dart';
 
 class TodoView extends StatelessWidget {
@@ -19,7 +18,7 @@ class TodoView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Hero(
-      tag: isEdit ? kModifyAnimation : "",
+      tag: isEdit ? todo!.id : "",
       child: Scaffold(
         backgroundColor: kPrimaryColor,
         body: SafeArea(
