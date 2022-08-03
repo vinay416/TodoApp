@@ -4,18 +4,27 @@ import 'package:todo_app/const/text_style_const.dart';
 import 'package:todo_app/model/todo_data_model.dart';
 import 'package:todo_app/resuable_widgets/extension_widget.dart';
 import 'package:todo_app/resuable_widgets/icon_button_widget.dart';
+import 'package:todo_app/utils.dart';
 import 'package:todo_app/views/widgets/todo_form_widget.dart';
 
 class TodoView extends StatelessWidget {
-  const TodoView({Key? key, this.todo}) : super(key: key);
+  const TodoView({
+    Key? key,
+    this.todo,
+    this.isEdit = false,
+  }) : super(key: key);
   final TodoDataModel? todo;
+  final bool isEdit;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kPrimaryColor,
-      body: SafeArea(
-        child: _buildBody(context),
+    return Hero(
+      tag: isEdit ? kModifyAnimation : "",
+      child: Scaffold(
+        backgroundColor: kPrimaryColor,
+        body: SafeArea(
+          child: _buildBody(context),
+        ),
       ),
     );
   }

@@ -5,6 +5,7 @@ import 'package:todo_app/model/todo_data_model.dart';
 import 'package:todo_app/repository/database_repo.dart';
 import 'package:todo_app/resuable_widgets/extension_widget.dart';
 import 'package:todo_app/resuable_widgets/icon_button_widget.dart';
+import 'package:todo_app/utils.dart';
 import 'package:todo_app/views/todo_view.dart';
 
 class TodoModelWidget extends StatefulWidget {
@@ -23,13 +24,16 @@ class _TodoModelWidgetState extends State<TodoModelWidget> {
   }
 
   Widget _buildTodoCard() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: context.w(50)),
-      child: Card(
-        child: _buildList(),
-        shadowColor: kProductColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10),
+    return Hero(
+      tag: kModifyAnimation,
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: context.w(50)),
+        child: Card(
+          child: _buildList(),
+          shadowColor: kProductColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
         ),
       ),
     );
@@ -81,7 +85,10 @@ class _TodoModelWidgetState extends State<TodoModelWidget> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => TodoView(todo: widget.todo),
+                builder: (context) => TodoView(
+                  todo: widget.todo,
+                  isEdit: true,
+                ),
               ),
             );
           },
