@@ -95,7 +95,10 @@ class DataBaseRepo {
   Stream<List<TodoDataModel>> get getUserTodoStream {
     final CollectionReference todoDB = _getUserTodoDB;
 
-    return todoDB.snapshots().map((event) => _getListTodoModel(event));
+    return todoDB
+        .orderBy("date")
+        .snapshots()
+        .map((event) => _getListTodoModel(event));
   }
 
   List<TodoDataModel> _getListTodoModel(QuerySnapshot<Object?> event) {
