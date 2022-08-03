@@ -3,8 +3,8 @@ import 'package:todo_app/const/color_const.dart';
 import 'package:todo_app/const/text_style_const.dart';
 import 'package:todo_app/model/todo_data_model.dart';
 import 'package:todo_app/repository/database_repo.dart';
-import 'package:todo_app/resuable_widgets/extension_widget.dart';
-import 'package:todo_app/resuable_widgets/icon_button_widget.dart';
+import 'package:todo_app/reusable_widgets/extension_widget.dart';
+import 'package:todo_app/reusable_widgets/icon_button_widget.dart';
 import 'package:todo_app/utils.dart';
 import 'package:todo_app/views/todo_view.dart';
 

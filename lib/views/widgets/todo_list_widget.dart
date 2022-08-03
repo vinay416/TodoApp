@@ -4,8 +4,8 @@ import 'package:todo_app/const/svg_const.dart';
 import 'package:todo_app/const/text_style_const.dart';
 import 'package:todo_app/model/todo_data_model.dart';
 import 'package:todo_app/repository/database_repo.dart';
-import 'package:todo_app/resuable_widgets/extension_widget.dart';
-import 'package:todo_app/resuable_widgets/loader_widget.dart';
+import 'package:todo_app/reusable_widgets/extension_widget.dart';
+import 'package:todo_app/reusable_widgets/loader_widget.dart';
 import 'package:todo_app/views/widgets/todo_model_widget.dart';
 
 class TodoListWidget extends StatelessWidget {

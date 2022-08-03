@@ -4,9 +4,9 @@ import 'package:todo_app/const/color_const.dart';
 import 'package:todo_app/const/svg_const.dart';
 import 'package:todo_app/const/text_style_const.dart';
 import 'package:todo_app/model/auth_model.dart';
-import 'package:todo_app/resuable_widgets/elevated_buttons_widget.dart';
-import 'package:todo_app/resuable_widgets/extension_widget.dart';
-import 'package:todo_app/resuable_widgets/snackbar_widget.dart';
+import 'package:todo_app/reusable_widgets/elevated_buttons_widget.dart';
+import 'package:todo_app/reusable_widgets/extension_widget.dart';
+import 'package:todo_app/reusable_widgets/snackbar_widget.dart';
 import 'package:todo_app/utils.dart';
 
 class SignInView extends StatefulWidget {

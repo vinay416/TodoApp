@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:todo_app/const/color_const.dart';
 import 'package:todo_app/model/todo_data_model.dart';
 import 'package:todo_app/repository/database_repo.dart';
-import 'package:todo_app/resuable_widgets/elevated_buttons_widget.dart';
-import 'package:todo_app/resuable_widgets/extension_widget.dart';
-import 'package:todo_app/resuable_widgets/textfield_widget.dart';
+import 'package:todo_app/reusable_widgets/elevated_buttons_widget.dart';
+import 'package:todo_app/reusable_widgets/extension_widget.dart';
+import 'package:todo_app/reusable_widgets/textfield_widget.dart';
 import 'package:todo_app/utils.dart';
 
 class TodoFormWidget extends StatefulWidget {

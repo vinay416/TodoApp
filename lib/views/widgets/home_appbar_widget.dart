@@ -5,10 +5,10 @@ import 'package:todo_app/model/auth_model.dart';
 import 'package:todo_app/model/todo_data_model.dart';
 import 'package:todo_app/model/user_data_model.dart';
 import 'package:todo_app/repository/database_repo.dart';
-import 'package:todo_app/resuable_widgets/extension_widget.dart';
-import 'package:todo_app/resuable_widgets/icon_button_widget.dart';
-import 'package:todo_app/resuable_widgets/loader_widget.dart';
-import 'package:todo_app/resuable_widgets/snackbar_widget.dart';
+import 'package:todo_app/reusable_widgets/extension_widget.dart';
+import 'package:todo_app/reusable_widgets/icon_button_widget.dart';
+import 'package:todo_app/reusable_widgets/loader_widget.dart';
+import 'package:todo_app/reusable_widgets/snackbar_widget.dart';
 
 class HomeAppTopBar extends StatefulWidget {
   const HomeAppTopBar({Key? key}) : super(key: key);

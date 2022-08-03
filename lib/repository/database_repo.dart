@@ -6,9 +6,9 @@ import 'package:todo_app/model/todo_data_model.dart';
 import 'package:todo_app/model/user_data_model.dart';
 import 'package:todo_app/utils.dart';
 
-const String _usersDB = "Users";
+const String _usersCollection = "Users";
 
-const String _todoDB = "Todos";
+const String _todoCollection = "Todos";
 
 class DataBaseRepo {
   DataBaseRepo._privateConstructor();
@@ -25,9 +25,9 @@ class DataBaseRepo {
     try {
       final userId = _userModel.id;
 
-      final CollectionReference userDB = _firestoreDB.collection(_usersDB);
+      final CollectionReference users = _firestoreDB.collection(_usersCollection);
 
-      final userRecord = await userDB.doc(userId).get();
+      final userRecord = await users.doc(userId).get();
 
       if (userRecord.exists) {
         return;
@@ -35,7 +35,7 @@ class DataBaseRepo {
 
       final Map<String, dynamic> payload = _userModel.toJson();
 
-      await userDB.doc(userId).set(payload);
+      await users.doc(userId).set(payload);
 
       await createTodo();
     } on Exception catch (e) {
@@ -47,9 +47,9 @@ class DataBaseRepo {
     try {
       final String date = getFormattedDate(DateTime.now());
 
-      final CollectionReference todoDb = _getUserTodoDB;
+      final CollectionReference todos = _getUserTodoCollection;
 
-      final String todoId = todoDb.doc().id;
+      final String todoId = todos.doc().id;
 
       Map<String, dynamic> payload;
 
@@ -67,7 +67,7 @@ class DataBaseRepo {
         payload = userTodo.toJson();
       }
 
-      await todoDb.doc(todoId).set(payload);
+      await todos.doc(todoId).set(payload);
     } on Exception catch (e) {
       log("Todo Create error : $e");
     }
@@ -77,7 +77,7 @@ class DataBaseRepo {
     required TodoDataModel todoModel,
     required String todoId,
   }) async {
-    final CollectionReference todoDb = _getUserTodoDB;
+    final CollectionReference todoDb = _getUserTodoCollection;
 
     todoModel.id = todoId;
 
@@ -87,13 +87,13 @@ class DataBaseRepo {
   }
 
   Future<void> deleteTodo(String todoId) async {
-    final CollectionReference todoDB = _getUserTodoDB;
+    final CollectionReference todoDB = _getUserTodoCollection;
 
     await todoDB.doc(todoId).delete();
   }
 
   Stream<List<TodoDataModel>> get getUserTodoStream {
-    final CollectionReference todoDB = _getUserTodoDB;
+    final CollectionReference todoDB = _getUserTodoCollection;
 
     return todoDB
         .orderBy("date")
@@ -111,11 +111,11 @@ class DataBaseRepo {
     return TodoDataModel.fromJson(todoJson);
   }
 
-  CollectionReference get _getUserTodoDB {
+  CollectionReference get _getUserTodoCollection {
     final String userId = _userModel.id;
 
     final CollectionReference todoDb =
-        _firestoreDB.collection(_usersDB).doc(userId).collection(_todoDB);
+        _firestoreDB.collection(_usersCollection).doc(userId).collection(_todoCollection);
 
     return todoDb;
   }
