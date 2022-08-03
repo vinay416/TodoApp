@@ -64,7 +64,7 @@ class _HomeAppTopBarState extends State<HomeAppTopBar> {
           : EdgeInsets.symmetric(
               horizontal: context.w(50), vertical: context.h(30)),
       child: Text(
-        "MyTodo",
+        "Your Things",
         style: kPrimaryTitleTextItlaticStyle,
       ),
     );

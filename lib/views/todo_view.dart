@@ -60,7 +60,7 @@ class TodoView extends StatelessWidget {
       children: [
         Center(
           child: Text(
-            "Todo Details",
+            "Thing Details",
             style: kProductTitleTextItlaticStyle,
           ),
         ),

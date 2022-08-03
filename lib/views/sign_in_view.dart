@@ -96,7 +96,7 @@ class _SignInViewState extends State<SignInView> {
 
   Widget _buildTitleText() {
     return Text(
-      "Welcome to MyTodo",
+      "Welcome to Things",
       style: kProductTitleTextItlaticStyle,
     );
   }
@@ -105,7 +105,7 @@ class _SignInViewState extends State<SignInView> {
     return Column(
       children: [
         Text(
-          "Create your Todos now.",
+          "Create your things now.",
           style: kBodyTextStyle,
         ),
         Text(
