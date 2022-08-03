@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:todo_app/const/color_const.dart';
 import 'package:todo_app/const/text_style_const.dart';
 import 'package:todo_app/resuable_widgets/loader_widget.dart';
@@ -10,12 +11,16 @@ class CustomElevatedButton extends StatelessWidget {
     required this.label,
     this.icon,
     this.isLoader = false,
+    this.paddingVert = 8,
+    this.paddingHoriz = 100,
   }) : super(key: key);
 
   final VoidCallback onTap;
   final String label;
-  final IconData? icon;
+  final String? icon;
   final bool isLoader;
+  final double paddingVert;
+  final double paddingHoriz;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +32,10 @@ class CustomElevatedButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         primary: kAccentColor,
         onPrimary: kPrimaryColor,
-        padding: const EdgeInsets.symmetric(horizontal: 100, vertical: 12),
+        padding: EdgeInsets.symmetric(
+          horizontal: paddingHoriz,
+          vertical: paddingVert,
+        ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),
@@ -38,8 +46,10 @@ class CustomElevatedButton extends StatelessWidget {
         children: [
           if (icon != null)
             Container(
-              child: Icon(icon),
-              margin: const EdgeInsets.only(right: 10),
+              height: 35,
+              width: 40,
+              child: SvgPicture.asset(icon!),
+              margin: const EdgeInsets.only(right: 20),
             ),
           Text(
             label,

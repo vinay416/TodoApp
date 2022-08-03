@@ -142,6 +142,8 @@ class _TodoFormWidgetState extends State<TodoFormWidget> {
 
   Widget _buildButton() {
     return CustomElevatedButton(
+      paddingVert: 12,
+      paddingHoriz: 120,
       isLoader: isLoading,
       onTap: _onSubmit,
       label: "Submit",

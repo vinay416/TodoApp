@@ -118,6 +118,7 @@ class _SignInViewState extends State<SignInView> {
 
   Widget _buildSignInButton() {
     return CustomElevatedButton(
+      icon: kGoogleSvg,
       isLoader: isLoading,
       onTap: () async {
         setState(() => isLoading = true);
