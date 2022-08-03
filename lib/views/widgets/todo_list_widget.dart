@@ -49,7 +49,7 @@ class TodoListWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          "Loading Todos",
+          "Loading Things",
           style: kBodyTextStyle,
         ),
         const LoaderWidget(),
@@ -90,7 +90,7 @@ class TodoListWidget extends StatelessWidget {
 
   Widget _buildNoDataText() {
     return Text(
-      "No todos found, create a new todo by clicking floating + button.",
+      "No things found, create a new thing by clicking floating + button.",
       textAlign: TextAlign.center,
       style: kBodyTextStyle,
     );
