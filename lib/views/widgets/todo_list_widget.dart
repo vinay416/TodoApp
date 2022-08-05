@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:todo_app/const/svg_const.dart';
+import 'package:todo_app/const/assets_const.dart';
 import 'package:todo_app/const/text_style_const.dart';
 import 'package:todo_app/model/todo_data_model.dart';
 import 'package:todo_app/repository/database_repo.dart';

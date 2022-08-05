@@ -31,7 +31,7 @@ TextStyle kTodoProductTitleTextStyle = GoogleFonts.davidLibre(
 TextStyle kPrimaryAccentTextStyle = GoogleFonts.davidLibre(
   fontStyle: FontStyle.normal,
   color: kPrimaryColor,
-  fontSize: 25,
+  fontSize: 40,
 );
 
 TextStyle kBlackAccentTextStyle = GoogleFonts.davidLibre(
@@ -45,4 +45,10 @@ TextStyle kResponseTextStyle = GoogleFonts.quicksand(
   fontStyle: FontStyle.normal,
   color: kPrimaryColor,
   fontSize: 20,
+);
+
+TextStyle kSmallestTextStyle = GoogleFonts.quicksand(
+  fontStyle: FontStyle.normal,
+  color: kPrimaryColor,
+  fontSize: 15,
 );

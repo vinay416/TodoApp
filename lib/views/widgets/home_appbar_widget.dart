@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/const/assets_const.dart';
 import 'package:todo_app/const/color_const.dart';
 import 'package:todo_app/const/text_style_const.dart';
 import 'package:todo_app/model/auth_model.dart';
@@ -9,6 +10,7 @@ import 'package:todo_app/reusable_widgets/extension_widget.dart';
 import 'package:todo_app/reusable_widgets/icon_button_widget.dart';
 import 'package:todo_app/reusable_widgets/loader_widget.dart';
 import 'package:todo_app/reusable_widgets/snackbar_widget.dart';
+import 'package:todo_app/utils.dart';
 
 class HomeAppTopBar extends StatefulWidget {
   const HomeAppTopBar({Key? key}) : super(key: key);
@@ -22,60 +24,114 @@ class _HomeAppTopBarState extends State<HomeAppTopBar> {
 
   @override
   Widget build(BuildContext context) {
-    return _buildTopBar();
+    return _buildMain();
   }
 
-  Widget _buildTopBar() {
-    return Container(
-      margin: EdgeInsets.symmetric(
-        horizontal: context.w(50),
-        vertical: context.h(30),
-      ),
-      decoration: BoxDecoration(
-        color: kProductColor,
-        borderRadius: BorderRadius.circular(20),
-      ),
-      height: context.isPortrait ? context.h(200) : context.h(400),
-      width: double.infinity,
-      child: _buildAppBar(),
-    );
-  }
-
-  Widget _buildAppBar() {
-    return Column(
+  Widget _buildMain() {
+    return Stack(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildTodoTitle(),
-            _buildTodoCount(),
-          ],
-        ),
-        _buildLogOut(),
+        _buildBackGround(),
+        _buildForeGround(),
       ],
     );
   }
 
-  Widget _buildTodoTitle() {
-    return Container(
-      margin: context.isPortrait
-          ? EdgeInsets.all(context.h(20))
-          : EdgeInsets.symmetric(
-              horizontal: context.w(50), vertical: context.h(30)),
-      child: Text(
-        "Your Things",
-        style: kPrimaryTitleTextItlaticStyle,
+  Widget _buildBackGround() {
+    return SizedBox(
+      height: context.isPortrait ? context.h(250) : context.h(450),
+      width: double.maxFinite,
+      child: Image.asset(
+        kBackground,
+        fit: BoxFit.cover,
       ),
     );
   }
 
+  Widget _buildForeGround() {
+    return SizedBox(
+      height: context.isPortrait ? context.h(250) : context.h(450),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [_buildLeftSide(), _buildRightSide()],
+      ),
+    );
+  }
+
+  Widget _buildLeftSide() {
+    return Container(
+      margin: context.isPortrait
+          ? EdgeInsets.only(top: context.h(20))
+          : EdgeInsets.zero,
+      height: context.isPortrait ? context.h(250) : context.h(450),
+      width: context.w(600),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Container(
+              margin: EdgeInsets.only(left: context.w(80)),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildTopIcon(),
+                  _buildTodoTitle(),
+                  _buildDate(),
+                ],
+              ),
+            ),
+          ),
+          Container(
+            color: kProductColor,
+            height: 5,
+            width: double.maxFinite,
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRightSide() {
+    return Container(
+      height: context.isPortrait ? context.h(250) : context.h(450),
+      width: context.w(400),
+      color: Colors.black26,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          _buildLogOut(),
+          _buildTodoCount(),
+          if (context.isPortrait) SizedBox(height: context.h(10)),
+          _buildPercentage(),
+          if (context.isPortrait) SizedBox(height: context.h(20))
+        ],
+      ),
+    );
+  }
+
+  Widget _buildTodoTitle() {
+    return Text(
+      "Your\nThings",
+      style: kPrimaryAccentTextStyle,
+    );
+  }
+
   Widget _buildTodoCount() {
+    return Row(
+      children: [
+        _buildPersonalCount(),
+        _buildBusinessCount(),
+      ],
+    );
+  }
+
+  Widget _buildPersonalCount() {
     return Container(
       margin: context.isPortrait
           ? EdgeInsets.all(context.h(20))
           : EdgeInsets.symmetric(
-              horizontal: context.w(50), vertical: context.h(30)),
+              horizontal: context.w(50), vertical: context.h(20)),
       child: StreamBuilder<List<TodoDataModel>>(
         stream: DataBaseRepo().getUserTodoStream,
         builder: (context, snapshot) {
@@ -83,12 +139,37 @@ class _HomeAppTopBarState extends State<HomeAppTopBar> {
 
           todoLength ??= 0;
 
-          return Text(
-            todoLength.toString(),
-            style: kPrimaryTitleTextItlaticStyle,
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                todoLength.toString(),
+                style: kPrimaryAccentTextStyle,
+              ),
+              Text(
+                "Personal",
+                style: kSmallestTextStyle,
+              ),
+            ],
           );
         },
       ),
+    );
+  }
+
+  Widget _buildBusinessCount() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Text(
+          "5",
+          style: kPrimaryAccentTextStyle,
+        ),
+        Text(
+          "Business",
+          style: kSmallestTextStyle,
+        ),
+      ],
     );
   }
 
@@ -134,6 +215,38 @@ class _HomeAppTopBarState extends State<HomeAppTopBar> {
           icon: Icons.logout_rounded,
           iconColor: kAccentColor,
           label: "Sign out",
+        ),
+      ],
+    );
+  }
+
+  Widget _buildTopIcon() {
+    return const Icon(
+      Icons.format_align_left_rounded,
+      color: kPrimaryColor,
+      size: 30,
+    );
+  }
+
+  Widget _buildDate() {
+    return Text(
+      getFormattedDate(DateTime.now()),
+      style: kResponseTextStyle,
+    );
+  }
+
+  Widget _buildPercentage() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        const Icon(
+          Icons.data_saver_off_rounded,
+          color: kPrimaryColor,
+        ),
+        SizedBox(width: context.w(20)),
+        Text(
+          "15% Done",
+          style: kSmallestTextStyle,
         ),
       ],
     );
