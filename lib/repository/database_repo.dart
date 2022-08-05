@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:todo_app/model/auth_model.dart';
 import 'package:todo_app/model/todo_data_model.dart';
-import 'package:todo_app/model/user_data_model.dart';
 import 'package:todo_app/utils.dart';
 
 const String _usersCollection = "Users";
@@ -19,11 +18,9 @@ class DataBaseRepo {
 
   final FirebaseFirestore _firestoreDB = FirebaseFirestore.instance;
 
-  final UserDataModel _userModel = AuthModel().getUser;
-
   Future<void> createNewUser() async {
     try {
-      final userId = _userModel.id;
+      final userId = AuthModel().getUser.id;
 
       final CollectionReference users =
           _firestoreDB.collection(_usersCollection);
@@ -34,7 +31,7 @@ class DataBaseRepo {
         return;
       }
 
-      final Map<String, dynamic> payload = _userModel.toJson();
+      final Map<String, dynamic> payload = AuthModel().getUser.toJson();
 
       await users.doc(userId).set(payload);
 
@@ -113,7 +110,7 @@ class DataBaseRepo {
   }
 
   CollectionReference get _getUserTodoCollection {
-    final String userId = _userModel.id;
+    final String userId = AuthModel().getUser.id;
 
     final CollectionReference todoDb = _firestoreDB
         .collection(_usersCollection)
