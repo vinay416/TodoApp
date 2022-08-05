@@ -98,13 +98,14 @@ class _HomeAppTopBarState extends State<HomeAppTopBar> {
       width: context.w(400),
       color: Colors.black26,
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           _buildLogOut(),
           _buildTodoCount(),
           if (context.isPortrait) SizedBox(height: context.h(10)),
           _buildPercentage(),
-          if (context.isPortrait) SizedBox(height: context.h(20))
+          if (context.isPortrait) SizedBox(height: context.h(10))
         ],
       ),
     );
@@ -195,6 +196,7 @@ class _HomeAppTopBarState extends State<HomeAppTopBar> {
           margin: EdgeInsets.only(right: context.w(20)),
           child: Text(
             user.name ?? user.email,
+            maxLines: 1,
             style: kResponseTextStyle,
           ),
         ),

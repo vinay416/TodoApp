@@ -5,6 +5,7 @@ import 'package:todo_app/model/todo_data_model.dart';
 import 'package:todo_app/repository/database_repo.dart';
 import 'package:todo_app/reusable_widgets/extension_widget.dart';
 import 'package:todo_app/reusable_widgets/icon_button_widget.dart';
+import 'package:todo_app/reusable_widgets/todo_icon_widget.dart';
 import 'package:todo_app/views/todo_view.dart';
 
 class TodoModelWidget extends StatefulWidget {
@@ -26,88 +27,71 @@ class _TodoModelWidgetState extends State<TodoModelWidget> {
     return Hero(
       tag: widget.todo.id,
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: context.w(50)),
-        child: Card(
-          child: _buildList(),
-          shadowColor: kProductColor,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+        margin: EdgeInsets.symmetric(horizontal: context.w(80)),
+        child: Material(
+          child: Column(
+            children: [
+              ListTile(
+                contentPadding: EdgeInsets.only(top: context.h(10)),
+                leading: const TodoIcon(),
+                title: _buildTitle(),
+                subtitle: _buildDesc(),
+                trailing: _buildButtons(),
+                onTap: onTap,
+              ),
+              const Divider(color: kProductColor),
+            ],
           ),
         ),
       ),
     );
   }
 
-  Widget _buildList() {
-    return Container(
-      margin: EdgeInsets.fromLTRB(
-        context.w(50),
-        context.h(10),
-        context.w(20),
-        context.h(10),
-      ),
-      child: _buildData(),
+  Widget _buildTitle() {
+    return Text(
+      widget.todo.title,
+      style: kTodoProductTitleTextStyle,
     );
   }
 
-  Widget _buildData() {
+  Widget _buildDesc() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          widget.todo.title,
-          style: kTodoProductTitleTextStyle,
-        ),
-        Text(
           widget.todo.desc,
           style: kBodyTextStyle,
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              widget.todo.date,
-              style: kBodyTextStyle,
-            ),
-            _buildButtons(),
-          ],
+        Text(
+          widget.todo.date,
+          style: kBodyTextStyle,
         ),
       ],
     );
   }
 
   Widget _buildButtons() {
-    return Row(
-      children: [
-        CustomIconTextButton(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => TodoView(
-                  todo: widget.todo,
-                  isEdit: true,
-                ),
-              ),
-            );
-          },
-          icon: Icons.edit,
-          iconColor: kAccentColor,
-          iconSize: 30,
+    return CustomIconTextButton(
+      axisSize: MainAxisSize.min,
+      onTap: () async {
+        final String todoId = widget.todo.id;
+        DataBaseRepo().deleteTodo(todoId);
+      },
+      icon: Icons.delete_rounded,
+      iconColor: kRedColor,
+      iconSize: 30,
+    );
+  }
+
+  void onTap() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => TodoView(
+          todo: widget.todo,
+          isEdit: true,
         ),
-        SizedBox(
-          width: context.w(10),
-        ),
-        CustomIconTextButton(
-          onTap: () async {
-            final String todoId = widget.todo.id;
-            DataBaseRepo().deleteTodo(todoId);
-          },
-          icon: Icons.delete_rounded,
-          iconColor: kRedColor,
-          iconSize: 30,
-        )
-      ],
+      ),
     );
   }
 }

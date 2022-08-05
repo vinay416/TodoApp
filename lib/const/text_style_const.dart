@@ -15,9 +15,9 @@ TextStyle kProductTitleTextItlaticStyle = GoogleFonts.pacifico(
   fontWeight: FontWeight.bold,
 );
 
-TextStyle kPrimaryTitleTextItlaticStyle = GoogleFonts.pacifico(
-  fontStyle: FontStyle.italic,
-  color: kPrimaryColor,
+TextStyle kPrimaryTitleTextItlaticStyle = GoogleFonts.davidLibre(
+  fontStyle: FontStyle.normal,
+  color: kProductColor,
   fontSize: 35,
   fontWeight: FontWeight.bold,
 );

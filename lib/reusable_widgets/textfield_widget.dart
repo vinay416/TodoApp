@@ -8,7 +8,6 @@ class CustomTextField extends StatelessWidget {
     required this.hint,
     this.onChange,
     this.initialvalue,
-    this.maxLines = 1,
     this.onTap,
     this.isReadOnly = false,
     this.hintStyle,
@@ -17,7 +16,6 @@ class CustomTextField extends StatelessWidget {
   final VoidCallback? onTap;
   final String? initialvalue;
   final String hint;
-  final int maxLines;
   final bool isReadOnly;
   final TextStyle? hintStyle;
 
@@ -30,7 +28,6 @@ class CustomTextField extends StatelessWidget {
     return TextFormField(
       onTap: onTap,
       readOnly: isReadOnly,
-      maxLines: maxLines,
       onChanged: onChange,
       initialValue: initialvalue,
       decoration: InputDecoration(
@@ -38,20 +35,19 @@ class CustomTextField extends StatelessWidget {
         hintStyle: hintStyle ?? kBodyTextStyle,
         fillColor: kPrimaryColor,
         filled: true,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
       ),
       cursorHeight: 25,
-      validator: isReadOnly
-          ? null
-          : (value) {
-              if (value!.isEmpty) {
-                return "Field required";
-              }
+      validator: (value) {
+        if (value!.isEmpty && !isReadOnly) {
+          return "Field required";
+        }
 
-              return null;
-            },
+        if (isReadOnly && hint == "Date") {
+          return "Field required";
+        }
+
+        return null;
+      },
     );
   }
 }

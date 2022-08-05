@@ -41,28 +41,16 @@ class _TodoFormWidgetState extends State<TodoFormWidget> {
   }
 
   Widget _buildMain() {
-    return Column(
-      children: [
-        _buildCard(),
-        SizedBox(height: context.h(50)),
-        _buildButton(),
-        if (!context.isPortrait) SizedBox(height: context.h(80)),
-      ],
-    );
-  }
-
-  Widget _buildCard() {
-    return Card(
-      elevation: 10.0,
-      margin: EdgeInsets.symmetric(
-        horizontal: context.w(40),
-        vertical: context.h(50),
+    return Container(
+      margin: const EdgeInsets.all(10),
+      child: Column(
+        children: [
+          _buildForm(),
+          SizedBox(height: context.h(50)),
+          _buildButton(),
+          if (!context.isPortrait) SizedBox(height: context.h(80)),
+        ],
       ),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-      color: kProductColor,
-      child: _buildForm(),
     );
   }
 
@@ -101,7 +89,6 @@ class _TodoFormWidgetState extends State<TodoFormWidget> {
 
   Widget _buildDescField() {
     return CustomTextField(
-      maxLines: 5,
       onChange: (value) {
         if (value != null) {
           setState(() => desc = value);
@@ -143,10 +130,10 @@ class _TodoFormWidgetState extends State<TodoFormWidget> {
   Widget _buildButton() {
     return CustomElevatedButton(
       paddingVert: 12,
-      paddingHoriz: 120,
+      paddingHoriz: 100,
       isLoader: isLoading,
       onTap: _onSubmit,
-      label: "Submit",
+      label: "Add Your Thing",
     );
   }
 
