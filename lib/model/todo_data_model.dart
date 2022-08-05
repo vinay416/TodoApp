@@ -31,18 +31,4 @@ class TodoDataModel {
     return json;
   }
 
-  Map<String, dynamic> updateTitle() {
-    final Map<String, dynamic> json = {"title": title};
-    return json;
-  }
-
-  Map<String, dynamic> updateDesc() {
-    final Map<String, dynamic> json = {"desc": desc};
-    return json;
-  }
-
-  Map<String, dynamic> updateDate() {
-    final Map<String, dynamic> json = {"date": date};
-    return json;
-  }
 }
