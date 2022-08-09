@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class TodoDataModel {
   TodoDataModel({
     required this.id,
@@ -9,14 +11,14 @@ class TodoDataModel {
   String id;
   String title;
   String desc;
-  String date;
+  DateTime date;
 
   factory TodoDataModel.fromJson(Map<String, dynamic> json) {
     return TodoDataModel(
       id: json["id"] as String,
       title: json["title"] as String,
-      date: json["date"] as String,
       desc: json["desc"] as String,
+      date: (json["date"] as Timestamp).toDate(),
     );
   }
 
@@ -30,5 +32,4 @@ class TodoDataModel {
 
     return json;
   }
-
 }

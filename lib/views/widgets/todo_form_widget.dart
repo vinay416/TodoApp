@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/model/base_model.dart' as base;
@@ -26,13 +28,15 @@ class _TodoFormWidgetState extends State<TodoFormWidget> {
 
   final TextEditingController _dateController = TextEditingController();
 
+  late DateTime _selectedDate;
+
   @override
   void initState() {
     final todo = widget.todo;
     if (todo != null) {
       _titleController.text = todo.title;
       _descController.text = todo.desc;
-      _dateController.text = todo.date;
+      _dateController.text = getFormattedDate(todo.date);
     }
     super.initState();
   }
@@ -94,11 +98,11 @@ class _TodoFormWidgetState extends State<TodoFormWidget> {
   Widget _buildDateField() {
     return CustomTextField(
       controller: _dateController,
-      onChange: (value) {},
       onTap: () async {
-        final String? pickDate = await _pickDate();
+        final DateTime? pickDate = await _pickDate();
         if (pickDate != null) {
-          _dateController.text = pickDate;
+          _dateController.text = getFormattedDate(pickDate);
+          _selectedDate = pickDate;
         }
       },
       isReadOnly: true,
@@ -109,14 +113,14 @@ class _TodoFormWidgetState extends State<TodoFormWidget> {
     );
   }
 
-  Future<String?> _pickDate() async {
+  Future<DateTime?> _pickDate() async {
     DateTime? date = await showDatePicker(
         context: context,
         initialDate: DateTime.now(),
         firstDate: DateTime.now(),
         lastDate: DateTime(DateTime.now().year + 10));
     if (date != null) {
-      return getFormattedDate(date);
+      return date;
     }
 
     return null;
@@ -147,7 +151,7 @@ class _TodoFormWidgetState extends State<TodoFormWidget> {
       id: "",
       title: _titleController.text,
       desc: _descController.text,
-      date: _dateController.text,
+      date: _selectedDate,
     );
 
     if (widget.todo == null) {

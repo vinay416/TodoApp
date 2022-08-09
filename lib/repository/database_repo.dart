@@ -20,7 +20,6 @@ class DataBaseRepo {
 
   Future<void> createNewUser(User user) async {
     try {
-
       final userId = user.uid;
 
       final CollectionReference users =
@@ -50,8 +49,6 @@ class DataBaseRepo {
 
   Future<void> createTodo({TodoDataModel? userTodo}) async {
     try {
-      final String date = getFormattedDate(DateTime.now());
-
       final CollectionReference todos = _getUserTodoCollection;
 
       final String todoId = todos.doc().id;
@@ -63,7 +60,7 @@ class DataBaseRepo {
           id: todoId,
           title: "Sample Data",
           desc: "Hi, there!",
-          date: date,
+          date: DateTime.now(),
         );
 
         payload = sampleTodo.toJson();

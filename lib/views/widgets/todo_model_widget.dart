@@ -7,6 +7,7 @@ import 'package:todo_app/repository/database_repo.dart';
 import 'package:todo_app/reusable_widgets/extension_widget.dart';
 import 'package:todo_app/reusable_widgets/icon_button_widget.dart';
 import 'package:todo_app/reusable_widgets/todo_icon_widget.dart';
+import 'package:todo_app/utils.dart';
 import 'package:todo_app/views/todo_view.dart';
 
 class TodoModelWidget extends StatelessWidget {
@@ -59,7 +60,7 @@ class TodoModelWidget extends StatelessWidget {
           style: kBodyTextStyle,
         ),
         Text(
-          todo.date,
+          getFormattedDate(todo.date),
           style: kBodyTextStyle,
         ),
       ],
