@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/const/color_const.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_app/model/base_model.dart' as base;
 import 'package:todo_app/model/todo_data_model.dart';
 import 'package:todo_app/repository/database_repo.dart';
 import 'package:todo_app/reusable_widgets/elevated_buttons_widget.dart';
@@ -18,19 +19,20 @@ class TodoFormWidget extends StatefulWidget {
 
 class _TodoFormWidgetState extends State<TodoFormWidget> {
   final GlobalKey<FormState> _formKey = GlobalKey();
-  bool isLoading = false;
 
-  String title = "";
-  String desc = "";
-  String date = "";
+  final TextEditingController _titleController = TextEditingController();
+
+  final TextEditingController _descController = TextEditingController();
+
+  final TextEditingController _dateController = TextEditingController();
 
   @override
   void initState() {
     final todo = widget.todo;
     if (todo != null) {
-      title = todo.title;
-      desc = todo.desc;
-      date = todo.date;
+      _titleController.text = todo.title;
+      _descController.text = todo.desc;
+      _dateController.text = todo.date;
     }
     super.initState();
   }
@@ -77,40 +79,33 @@ class _TodoFormWidgetState extends State<TodoFormWidget> {
 
   Widget _buildTitleField() {
     return CustomTextField(
-      onChange: (value) {
-        if (value != null) {
-          setState(() => title = value);
-        }
-      },
-      initialvalue: title,
+      controller: _titleController,
       hint: "Title",
     );
   }
 
   Widget _buildDescField() {
     return CustomTextField(
-      onChange: (value) {
-        if (value != null) {
-          setState(() => desc = value);
-        }
-      },
-      initialvalue: desc,
+      controller: _descController,
       hint: "Description",
     );
   }
 
   Widget _buildDateField() {
     return CustomTextField(
+      controller: _dateController,
       onChange: (value) {},
       onTap: () async {
         final String? pickDate = await _pickDate();
         if (pickDate != null) {
-          setState(() => date = pickDate);
+          _dateController.text = pickDate;
         }
       },
       isReadOnly: true,
-      hint: date.isNotEmpty ? date : "Date",
-      hintStyle: date.isNotEmpty ? const TextStyle(color: Colors.black) : null,
+      hint: "Date",
+      hintStyle: _dateController.text.isNotEmpty
+          ? const TextStyle(color: Colors.black)
+          : null,
     );
   }
 
@@ -128,28 +123,31 @@ class _TodoFormWidgetState extends State<TodoFormWidget> {
   }
 
   Widget _buildButton() {
-    return CustomElevatedButton(
-      paddingVert: 12,
-      paddingHoriz: 100,
-      isLoader: isLoading,
-      onTap: _onSubmit,
-      label: "Add Your Thing",
+    return Consumer<base.BaseModel>(
+      builder: (context, baseModel, child) {
+        return CustomElevatedButton(
+          paddingVert: 12,
+          paddingHoriz: 100,
+          onTap: () => _onSubmit(baseModel),
+          label: "Add Your Thing",
+        );
+      },
     );
   }
 
-  void _onSubmit() async {
-    setState(() => isLoading = true);
+  void _onSubmit(base.BaseModel baseModel) async {
+    baseModel.setState(base.State.loading);
 
     if (!(_formKey.currentState?.validate() ?? false)) {
-      setState(() => isLoading = false);
+      baseModel.setState(base.State.view);
       return;
     }
 
     TodoDataModel todo = TodoDataModel(
       id: "",
-      title: title,
-      date: date,
-      desc: desc,
+      title: _titleController.text,
+      date: _descController.text,
+      desc: _dateController.text,
     );
 
     if (widget.todo == null) {
@@ -159,8 +157,16 @@ class _TodoFormWidgetState extends State<TodoFormWidget> {
       await DataBaseRepo().modifyTodo(todoId: todoId, todoModel: todo);
     }
 
-    setState(() => isLoading = false);
+    baseModel.setState(base.State.view);
 
     Navigator.pop(context);
+  }
+
+  @override
+  void dispose() {
+    _dateController.dispose();
+    _titleController.dispose();
+    _descController.dispose();
+    super.dispose();
   }
 }

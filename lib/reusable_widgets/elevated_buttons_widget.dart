@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_app/const/color_const.dart';
 import 'package:todo_app/const/text_style_const.dart';
+import 'package:todo_app/model/base_model.dart' as base;
 import 'package:todo_app/reusable_widgets/loader_widget.dart';
 
 class CustomElevatedButton extends StatelessWidget {
@@ -10,7 +12,6 @@ class CustomElevatedButton extends StatelessWidget {
     required this.onTap,
     required this.label,
     this.icon,
-    this.isLoader = false,
     this.paddingVert = 8,
     this.paddingHoriz = 100,
   }) : super(key: key);
@@ -18,13 +19,18 @@ class CustomElevatedButton extends StatelessWidget {
   final VoidCallback onTap;
   final String label;
   final String? icon;
-  final bool isLoader;
   final double paddingVert;
   final double paddingHoriz;
 
   @override
   Widget build(BuildContext context) {
-    return isLoader ? const LoaderWidget() : _buildButton();
+    return Consumer<base.BaseModel>(
+      builder: (context, baseModel, child) {
+        return baseModel.state == base.State.loading
+            ? const LoaderWidget()
+            : _buildButton();
+      },
+    );
   }
 
   Widget _buildButton() {

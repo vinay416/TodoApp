@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/const/color_const.dart';
 import 'package:todo_app/const/text_style_const.dart';
-import 'package:todo_app/reusable_widgets/loader_widget.dart';
 
 class CustomIconTextButton extends StatelessWidget {
   const CustomIconTextButton({
@@ -9,7 +8,6 @@ class CustomIconTextButton extends StatelessWidget {
     required this.onTap,
     this.label,
     this.icon,
-    this.isLoader = false,
     this.iconColor = kProductColor,
     this.iconSize = 20,
     this.buttonAlignment = MainAxisAlignment.end,
@@ -20,7 +18,6 @@ class CustomIconTextButton extends StatelessWidget {
   final IconData? icon;
   final Color iconColor;
   final double iconSize;
-  final bool isLoader;
   final MainAxisAlignment buttonAlignment;
   final MainAxisSize axisSize;
 
@@ -32,7 +29,7 @@ class CustomIconTextButton extends StatelessWidget {
   Widget _buildMain(BuildContext context) {
     return TextButton(
       onPressed: onTap,
-      child: isLoader ? const LoaderWidget() : _buildButton(),
+      child:  _buildButton(),
     );
   }
 

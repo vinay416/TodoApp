@@ -8,24 +8,19 @@ import 'package:todo_app/reusable_widgets/icon_button_widget.dart';
 import 'package:todo_app/reusable_widgets/todo_icon_widget.dart';
 import 'package:todo_app/views/todo_view.dart';
 
-class TodoModelWidget extends StatefulWidget {
+class TodoModelWidget extends StatelessWidget {
   const TodoModelWidget({Key? key, required this.todo}) : super(key: key);
 
   final TodoDataModel todo;
 
   @override
-  State<TodoModelWidget> createState() => _TodoModelWidgetState();
-}
-
-class _TodoModelWidgetState extends State<TodoModelWidget> {
-  @override
   Widget build(BuildContext context) {
-    return _buildTodoCard();
+    return _buildTodoCard(context);
   }
 
-  Widget _buildTodoCard() {
+  Widget _buildTodoCard(BuildContext context) {
     return Hero(
-      tag: widget.todo.id,
+      tag: todo.id,
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: context.w(80)),
         child: Material(
@@ -37,7 +32,7 @@ class _TodoModelWidgetState extends State<TodoModelWidget> {
                 title: _buildTitle(),
                 subtitle: _buildDesc(),
                 trailing: _buildButtons(),
-                onTap: onTap,
+                onTap: () => onTap,
               ),
               const Divider(color: kProductColor),
             ],
@@ -49,7 +44,7 @@ class _TodoModelWidgetState extends State<TodoModelWidget> {
 
   Widget _buildTitle() {
     return Text(
-      widget.todo.title,
+      todo.title,
       style: kTodoProductTitleTextStyle,
     );
   }
@@ -59,11 +54,11 @@ class _TodoModelWidgetState extends State<TodoModelWidget> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          widget.todo.desc,
+          todo.desc,
           style: kBodyTextStyle,
         ),
         Text(
-          widget.todo.date,
+          todo.date,
           style: kBodyTextStyle,
         ),
       ],
@@ -74,7 +69,7 @@ class _TodoModelWidgetState extends State<TodoModelWidget> {
     return CustomIconTextButton(
       axisSize: MainAxisSize.min,
       onTap: () async {
-        final String todoId = widget.todo.id;
+        final String todoId = todo.id;
         DataBaseRepo().deleteTodo(todoId);
       },
       icon: Icons.delete_rounded,
@@ -83,12 +78,12 @@ class _TodoModelWidgetState extends State<TodoModelWidget> {
     );
   }
 
-  void onTap() {
+  void onTap(BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => TodoView(
-          todo: widget.todo,
+          todo: todo,
           isEdit: true,
         ),
       ),

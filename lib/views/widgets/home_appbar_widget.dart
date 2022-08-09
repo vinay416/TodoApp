@@ -8,35 +8,27 @@ import 'package:todo_app/model/user_data_model.dart';
 import 'package:todo_app/repository/database_repo.dart';
 import 'package:todo_app/reusable_widgets/extension_widget.dart';
 import 'package:todo_app/reusable_widgets/icon_button_widget.dart';
-import 'package:todo_app/reusable_widgets/loader_widget.dart';
 import 'package:todo_app/reusable_widgets/snackbar_widget.dart';
 import 'package:todo_app/utils.dart';
 
-class HomeAppTopBar extends StatefulWidget {
+class HomeAppTopBar extends StatelessWidget {
   const HomeAppTopBar({Key? key}) : super(key: key);
 
   @override
-  State<HomeAppTopBar> createState() => _HomeAppTopBarState();
-}
-
-class _HomeAppTopBarState extends State<HomeAppTopBar> {
-  bool isLoading = false;
-
-  @override
   Widget build(BuildContext context) {
-    return _buildMain();
+    return _buildMain(context);
   }
 
-  Widget _buildMain() {
+  Widget _buildMain(BuildContext context) {
     return Stack(
       children: [
-        _buildBackGround(),
-        _buildForeGround(),
+        _buildBackGround(context),
+        _buildForeGround(context),
       ],
     );
   }
 
-  Widget _buildBackGround() {
+  Widget _buildBackGround(BuildContext context) {
     return SizedBox(
       height: context.isPortrait ? context.h(250) : context.h(450),
       width: double.maxFinite,
@@ -47,17 +39,17 @@ class _HomeAppTopBarState extends State<HomeAppTopBar> {
     );
   }
 
-  Widget _buildForeGround() {
+  Widget _buildForeGround(BuildContext context) {
     return SizedBox(
       height: context.isPortrait ? context.h(250) : context.h(450),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [_buildLeftSide(), _buildRightSide()],
+        children: [_buildLeftSide(context), _buildRightSide(context)],
       ),
     );
   }
 
-  Widget _buildLeftSide() {
+  Widget _buildLeftSide(BuildContext context) {
     return Container(
       margin: context.isPortrait
           ? EdgeInsets.only(top: context.h(20))
@@ -92,7 +84,7 @@ class _HomeAppTopBarState extends State<HomeAppTopBar> {
     );
   }
 
-  Widget _buildRightSide() {
+  Widget _buildRightSide(BuildContext context) {
     return Container(
       height: context.isPortrait ? context.h(250) : context.h(450),
       width: context.w(400),
@@ -101,10 +93,10 @@ class _HomeAppTopBarState extends State<HomeAppTopBar> {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          _buildLogOut(),
-          _buildTodoCount(),
+          _buildLogOut(context),
+          _buildTodoCount(context),
           if (context.isPortrait) SizedBox(height: context.h(10)),
-          _buildPercentage(),
+          _buildPercentage(context),
           if (context.isPortrait) SizedBox(height: context.h(10))
         ],
       ),
@@ -118,16 +110,16 @@ class _HomeAppTopBarState extends State<HomeAppTopBar> {
     );
   }
 
-  Widget _buildTodoCount() {
+  Widget _buildTodoCount(BuildContext context) {
     return Row(
       children: [
-        _buildPersonalCount(),
+        _buildPersonalCount(context),
         _buildBusinessCount(),
       ],
     );
   }
 
-  Widget _buildPersonalCount() {
+  Widget _buildPersonalCount(BuildContext context) {
     return Container(
       margin: context.isPortrait
           ? EdgeInsets.all(context.h(20))
@@ -174,19 +166,14 @@ class _HomeAppTopBarState extends State<HomeAppTopBar> {
     );
   }
 
-  Widget _buildLogOut() {
+  Widget _buildLogOut(BuildContext context) {
     return Align(
       alignment: Alignment.centerRight,
-      child: isLoading
-          ? Padding(
-              padding: EdgeInsets.only(right: context.w(20)),
-              child: const LoaderWidget(),
-            )
-          : _buildSignOutButton(),
+      child: _buildSignOutButton(context),
     );
   }
 
-  Widget _buildSignOutButton() {
+  Widget _buildSignOutButton(BuildContext context) {
     final UserDataModel user = AuthModel().getUser;
 
     return Column(
@@ -201,9 +188,7 @@ class _HomeAppTopBarState extends State<HomeAppTopBar> {
           ),
         ),
         CustomIconTextButton(
-          isLoader: isLoading,
           onTap: () async {
-            setState(() => isLoading = true);
             final bool ressponse = await AuthModel().logout();
             if (!ressponse) {
               showSnackBar(
@@ -212,7 +197,6 @@ class _HomeAppTopBarState extends State<HomeAppTopBar> {
                 Respose.fail,
               );
             }
-            if (mounted) setState(() => isLoading = false);
           },
           icon: Icons.logout_rounded,
           iconColor: kAccentColor,
@@ -237,7 +221,7 @@ class _HomeAppTopBarState extends State<HomeAppTopBar> {
     );
   }
 
-  Widget _buildPercentage() {
+  Widget _buildPercentage(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [

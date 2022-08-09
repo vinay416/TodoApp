@@ -6,18 +6,18 @@ class CustomTextField extends StatelessWidget {
   const CustomTextField({
     Key? key,
     required this.hint,
+    required this.controller,
     this.onChange,
-    this.initialvalue,
     this.onTap,
     this.isReadOnly = false,
     this.hintStyle,
   }) : super(key: key);
   final Function(String?)? onChange;
   final VoidCallback? onTap;
-  final String? initialvalue;
   final String hint;
   final bool isReadOnly;
   final TextStyle? hintStyle;
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +26,9 @@ class CustomTextField extends StatelessWidget {
 
   Widget _buildMain() {
     return TextFormField(
+      controller: controller,
       onTap: onTap,
       readOnly: isReadOnly,
-      onChanged: onChange,
-      initialValue: initialvalue,
       decoration: InputDecoration(
         hintText: hint,
         hintStyle: hintStyle ?? kBodyTextStyle,
@@ -42,7 +41,7 @@ class CustomTextField extends StatelessWidget {
           return "Field required";
         }
 
-        if (isReadOnly && hint == "Date") {
+        if (isReadOnly && controller.text.isEmpty) {
           return "Field required";
         }
 

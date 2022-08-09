@@ -6,53 +6,50 @@ import 'package:todo_app/views/todo_view.dart';
 import 'package:todo_app/views/widgets/home_appbar_widget.dart';
 import 'package:todo_app/views/widgets/todo_list_widget.dart';
 
-class HomeView extends StatefulWidget {
+class HomeView extends StatelessWidget {
   const HomeView({Key? key}) : super(key: key);
 
-  @override
-  State<HomeView> createState() => _HomeViewState();
-}
-
-class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kPrimaryColor,
-      body: SafeArea(child: _buildBody()),
-      floatingActionButton: _buildFloatingButton(),
+      body: SafeArea(
+        child: _buildBody(context),
+      ),
+      floatingActionButton: _buildFloatingButton(context),
     );
   }
 
-  Widget _buildBody() {
+  Widget _buildBody(BuildContext context) {
     if (context.isPortrait) {
-      return _buildComponents();
+      return _buildComponents(context);
     }
 
     return SingleChildScrollView(
       child: SizedBox(
         height: context.h(1000),
-        child: _buildComponents(),
+        child: _buildComponents(context),
       ),
     );
   }
 
-  Widget _buildComponents() {
+  Widget _buildComponents(BuildContext context) {
     return Column(
       children: [
         const HomeAppTopBar(),
-        _buildText("Inbox"),
+        _buildText("Inbox", context),
         const TodoListWidget(),
         Row(
           children: [
-            _buildText("Completed"),
-            _buildNumber(),
+            _buildText("Completed", context),
+            _buildNumber(context),
           ],
         ),
       ],
     );
   }
 
-  Widget _buildNumber() {
+  Widget _buildNumber(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
         shape: BoxShape.circle,
@@ -69,7 +66,7 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  Widget _buildText(String text) {
+  Widget _buildText(String text, BuildContext context) {
     return Container(
       height: context.h(60),
       margin: EdgeInsets.only(left: context.w(80)),
@@ -81,7 +78,7 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  Widget _buildFloatingButton() {
+  Widget _buildFloatingButton(BuildContext context) {
     return FloatingActionButton(
       onPressed: () {
         Navigator.push(
