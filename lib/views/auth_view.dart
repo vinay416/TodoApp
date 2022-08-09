@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:todo_app/model/auth_model.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_app/views/home_view.dart';
 import 'package:todo_app/views/sign_in_view.dart';
 
@@ -10,10 +10,9 @@ class AuthView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<User?>(
-      stream: AuthModel().getAuthStream,
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) {
+    return Consumer<User?>(
+      builder: (context, user, child) {
+        if (user == null) {
           return const SignInView();
         }
 

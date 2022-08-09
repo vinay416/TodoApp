@@ -123,19 +123,19 @@ class _TodoFormWidgetState extends State<TodoFormWidget> {
   }
 
   Widget _buildButton() {
-    return Consumer<base.BaseModel>(
-      builder: (context, baseModel, child) {
+    return Consumer2<base.BaseModel, DataBaseRepo>(
+      builder: (context, baseModel, dataBaseRepo, child) {
         return CustomElevatedButton(
           paddingVert: 12,
           paddingHoriz: 100,
-          onTap: () => _onSubmit(baseModel),
+          onTap: () => _onSubmit(baseModel, dataBaseRepo),
           label: "Add Your Thing",
         );
       },
     );
   }
 
-  void _onSubmit(base.BaseModel baseModel) async {
+  void _onSubmit(base.BaseModel baseModel, DataBaseRepo dataBaseRepo) async {
     baseModel.setState(base.State.loading);
 
     if (!(_formKey.currentState?.validate() ?? false)) {
@@ -151,10 +151,10 @@ class _TodoFormWidgetState extends State<TodoFormWidget> {
     );
 
     if (widget.todo == null) {
-      await DataBaseRepo().createTodo(userTodo: todo);
+      await dataBaseRepo.createTodo(userTodo: todo);
     } else {
       final todoId = widget.todo!.id;
-      await DataBaseRepo().modifyTodo(todoId: todoId, todoModel: todo);
+      await dataBaseRepo.modifyTodo(todoId: todoId, todoModel: todo);
     }
 
     baseModel.setState(base.State.view);

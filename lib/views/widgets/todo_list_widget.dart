@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_app/const/assets_const.dart';
 import 'package:todo_app/const/text_style_const.dart';
 import 'package:todo_app/model/todo_data_model.dart';
@@ -14,21 +15,26 @@ class TodoListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: StreamBuilder<List<TodoDataModel>>(
-          stream: DataBaseRepo().getUserTodoStream,
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return _buildLoading();
-            }
+      child: Consumer<DataBaseRepo>(
+        builder: (context, dataBaseRepo, child) {
+          return StreamBuilder<List<TodoDataModel>>(
+            stream: dataBaseRepo.getUserTodoStream,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return _buildLoading();
+              }
 
-            if (!snapshot.hasData || snapshot.data!.isEmpty) {
-              return _buildNoData(context);
-            }
+              if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return _buildNoData(context);
+              }
 
-            final List<TodoDataModel> todoList = snapshot.data!;
+              final List<TodoDataModel> todoList = snapshot.data!;
 
-            return _buildTodoList(todoList);
-          }),
+              return _buildTodoList(todoList);
+            },
+          );
+        },
+      ),
     );
   }
 

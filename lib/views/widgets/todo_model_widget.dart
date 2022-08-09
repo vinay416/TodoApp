@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_app/const/color_const.dart';
 import 'package:todo_app/const/text_style_const.dart';
 import 'package:todo_app/model/todo_data_model.dart';
@@ -66,15 +67,19 @@ class TodoModelWidget extends StatelessWidget {
   }
 
   Widget _buildButtons() {
-    return CustomIconTextButton(
-      axisSize: MainAxisSize.min,
-      onTap: () async {
-        final String todoId = todo.id;
-        DataBaseRepo().deleteTodo(todoId);
+    return Consumer<DataBaseRepo>(
+      builder: (context, dataBaseRepo, child) {
+        return CustomIconTextButton(
+          axisSize: MainAxisSize.min,
+          onTap: () async {
+            final String todoId = todo.id;
+            dataBaseRepo.deleteTodo(todoId);
+          },
+          icon: Icons.delete_rounded,
+          iconColor: kRedColor,
+          iconSize: 30,
+        );
       },
-      icon: Icons.delete_rounded,
-      iconColor: kRedColor,
-      iconSize: 30,
     );
   }
 
