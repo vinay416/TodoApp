@@ -32,7 +32,7 @@ class TodoModelWidget extends StatelessWidget {
                 title: _buildTitle(),
                 subtitle: _buildDesc(),
                 trailing: _buildButtons(),
-                onTap: () => onTap,
+                onTap: () => onTap(context),
               ),
               const Divider(color: kProductColor),
             ],
