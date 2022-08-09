@@ -146,8 +146,8 @@ class _TodoFormWidgetState extends State<TodoFormWidget> {
     TodoDataModel todo = TodoDataModel(
       id: "",
       title: _titleController.text,
-      date: _descController.text,
-      desc: _dateController.text,
+      desc: _descController.text,
+      date: _dateController.text,
     );
 
     if (widget.todo == null) {
