@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:todo_app/firebase_options.dart';
 import 'package:todo_app/model/auth_model.dart';
 import 'package:todo_app/model/base_model.dart';
-import 'package:todo_app/model/todo_data_model.dart';
 import 'package:todo_app/repository/database_repo.dart';
 import 'package:todo_app/utils.dart';
 import 'package:todo_app/views/auth_view.dart';
@@ -26,12 +25,16 @@ class TodoApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => BaseModel()),
-        StreamProvider<User?>(
-          create: (context) => AuthModel().getAuthStream,
-          initialData: null,
+        ChangeNotifierProvider(
+          create: (context) => BaseModel(),
         ),
-        Provider(create: (context) => DataBaseRepo()),
+        Provider<AuthModel>(
+          create: (context) => AuthModel(),
+        ),
+        ProxyProvider<AuthModel, DataBaseRepo>(
+          update: (context, auth, previous) => DataBaseRepo(authModel: auth),
+          lazy: true,
+        ),
       ],
       child: const MaterialApp(
         debugShowCheckedModeBanner: false,

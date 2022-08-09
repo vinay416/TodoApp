@@ -1,10 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_app/const/assets_const.dart';
 import 'package:todo_app/const/color_const.dart';
 import 'package:todo_app/const/text_style_const.dart';
 import 'package:todo_app/model/auth_model.dart';
 import 'package:todo_app/model/todo_data_model.dart';
-import 'package:todo_app/model/user_data_model.dart';
 import 'package:todo_app/repository/database_repo.dart';
 import 'package:todo_app/reusable_widgets/extension_widget.dart';
 import 'package:todo_app/reusable_widgets/icon_button_widget.dart';
@@ -125,25 +126,29 @@ class HomeAppTopBar extends StatelessWidget {
           ? EdgeInsets.all(context.h(20))
           : EdgeInsets.symmetric(
               horizontal: context.w(50), vertical: context.h(20)),
-      child: StreamBuilder<List<TodoDataModel>>(
-        stream: DataBaseRepo().getUserTodoStream,
-        builder: (context, snapshot) {
-          int? todoLength = snapshot.data?.length;
+      child: Consumer<DataBaseRepo>(
+        builder: (context, dataBaseRepo, child) {
+          return StreamBuilder<List<TodoDataModel>>(
+            stream: dataBaseRepo.getUserTodoStream,
+            builder: (context, snapshot) {
+              int? todoLength = snapshot.data?.length;
 
-          todoLength ??= 0;
+              todoLength ??= 0;
 
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(
-                todoLength.toString(),
-                style: kPrimaryAccentTextStyle,
-              ),
-              Text(
-                "Personal",
-                style: kSmallestTextStyle,
-              ),
-            ],
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    todoLength.toString(),
+                    style: kPrimaryAccentTextStyle,
+                  ),
+                  Text(
+                    "Personal",
+                    style: kSmallestTextStyle,
+                  ),
+                ],
+              );
+            },
           );
         },
       ),
@@ -174,35 +179,37 @@ class HomeAppTopBar extends StatelessWidget {
   }
 
   Widget _buildSignOutButton(BuildContext context) {
-    final UserDataModel user = AuthModel().getUser;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        Container(
-          margin: EdgeInsets.only(right: context.w(20)),
-          child: Text(
-            user.name ?? user.email,
-            maxLines: 1,
-            style: kResponseTextStyle,
-          ),
-        ),
-        CustomIconTextButton(
-          onTap: () async {
-            final bool ressponse = await AuthModel().logout();
-            if (!ressponse) {
-              showSnackBar(
-                context,
-                "Something went wrong, please try again",
-                Respose.fail,
-              );
-            }
-          },
-          icon: Icons.logout_rounded,
-          iconColor: kAccentColor,
-          label: "Sign out",
-        ),
-      ],
+    return Consumer<AuthModel>(
+      builder: (context, auth, child) {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Container(
+              margin: EdgeInsets.only(right: context.w(20)),
+              child: Text(
+                auth.user!.displayName!,
+                maxLines: 1,
+                style: kResponseTextStyle,
+              ),
+            ),
+            CustomIconTextButton(
+              onTap: () async {
+                final bool ressponse = await auth.logout();
+                if (!ressponse) {
+                  showSnackBar(
+                    context,
+                    "Something went wrong, please try again",
+                    Respose.fail,
+                  );
+                }
+              },
+              icon: Icons.logout_rounded,
+              iconColor: kAccentColor,
+              label: "Sign out",
+            ),
+          ],
+        );
+      },
     );
   }
 

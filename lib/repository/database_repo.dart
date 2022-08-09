@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:todo_app/model/auth_model.dart';
 import 'package:todo_app/model/todo_data_model.dart';
+import 'package:todo_app/model/user_data_model.dart';
 import 'package:todo_app/utils.dart';
 
 const String _usersCollection = "Users";
@@ -10,17 +12,16 @@ const String _usersCollection = "Users";
 const String _todoCollection = "Todos";
 
 class DataBaseRepo {
-  DataBaseRepo._privateConstructor();
+  DataBaseRepo({required this.authModel});
 
-  static final DataBaseRepo _instance = DataBaseRepo._privateConstructor();
-
-  factory DataBaseRepo() => _instance;
+  final AuthModel authModel;
 
   final FirebaseFirestore _firestoreDB = FirebaseFirestore.instance;
 
-  Future<void> createNewUser() async {
+  Future<void> createNewUser(User user) async {
     try {
-      final userId = AuthModel().getUser.id;
+
+      final userId = user.uid;
 
       final CollectionReference users =
           _firestoreDB.collection(_usersCollection);
@@ -31,7 +32,13 @@ class DataBaseRepo {
         return;
       }
 
-      final Map<String, dynamic> payload = AuthModel().getUser.toJson();
+      final UserDataModel userData = UserDataModel(
+        email: user.email!,
+        id: user.uid,
+        name: user.displayName,
+      );
+
+      final Map<String, dynamic> payload = userData.toJson();
 
       await users.doc(userId).set(payload);
 
@@ -91,6 +98,8 @@ class DataBaseRepo {
   }
 
   Stream<List<TodoDataModel>> get getUserTodoStream {
+    if (authModel.user == null) return const Stream.empty();
+
     final CollectionReference todoDB = _getUserTodoCollection;
 
     return todoDB
@@ -110,7 +119,7 @@ class DataBaseRepo {
   }
 
   CollectionReference get _getUserTodoCollection {
-    final String userId = AuthModel().getUser.id;
+    final String userId = authModel.user!.uid;
 
     final CollectionReference todoDb = _firestoreDB
         .collection(_usersCollection)

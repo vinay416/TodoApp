@@ -1,21 +1,15 @@
 import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:todo_app/model/user_data_model.dart';
-import 'package:todo_app/repository/database_repo.dart';
 
 class AuthModel {
-  AuthModel._privateConstructor();
-
-  static final AuthModel _instance = AuthModel._privateConstructor();
-
-  factory AuthModel() => _instance;
-
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   Stream<User?> get getAuthStream => _firebaseAuth.authStateChanges();
+
+  User? get user => _firebaseAuth.currentUser;
 
   Future<bool> logout() async {
     try {
@@ -30,7 +24,7 @@ class AuthModel {
     }
   }
 
-  Future<bool> signInWithGoogle() async {
+  Future<User?> signInWithGoogle() async {
     try {
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
 
@@ -43,26 +37,17 @@ class AuthModel {
           idToken: googleAuth.idToken,
         );
 
-        await _firebaseAuth.signInWithCredential(credential);
+        final UserCredential userCredential =
+            await _firebaseAuth.signInWithCredential(credential);
 
-        await DataBaseRepo().createNewUser();
+        final User? user = userCredential.user;
 
-        return true;
+        return user;
       }
-      return false;
+      return null;
     } on Exception catch (e) {
       log(e.toString());
-      return false;
+      return null;
     }
-  }
-
-  UserDataModel get getUser {
-    final User user = _firebaseAuth.currentUser!;
-
-    return UserDataModel(
-      email: user.email!,
-      id: user.uid,
-      name: user.displayName!,
-    );
   }
 }
