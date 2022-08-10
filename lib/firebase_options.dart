@@ -65,5 +65,4 @@ class DefaultFirebaseOptions {
     projectId: 'todoapp-c71de',
     storageBucket: 'todoapp-c71de.appspot.com',
   );
-
 }

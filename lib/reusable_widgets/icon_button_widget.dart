@@ -29,7 +29,7 @@ class CustomIconTextButton extends StatelessWidget {
   Widget _buildMain(BuildContext context) {
     return TextButton(
       onPressed: onTap,
-      child:  _buildButton(),
+      child: _buildButton(),
     );
   }
 
