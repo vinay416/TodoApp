@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/model/base_model.dart' as base;
@@ -37,6 +35,7 @@ class _TodoFormWidgetState extends State<TodoFormWidget> {
       _titleController.text = todo.title;
       _descController.text = todo.desc;
       _dateController.text = getFormattedDate(todo.date);
+      _selectedDate = todo.date;
     }
     super.initState();
   }
